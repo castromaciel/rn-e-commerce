@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Card } from './src/components/Card';
+import { Title } from './src/components/Title';
 
-export default function App() {
+const App = () => {
+  const [products, setProducts] = useState([])
+
+  const getProducts = async () => {
+    const response = await fetch('https://rickandmortyapi.com/api/character')
+    const {results: data} = await response.json()
+    setProducts(data)
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Title title={'React Advanced'}/>
+      { products?.map((product) => <Card product={product} /> )}
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#fdfdfd'
   },
 });
+
+export default App;
