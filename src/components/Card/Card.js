@@ -4,7 +4,10 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 const Card = ({ product }) => {
   return (
     <View style={styles.cards} key={product.id}>
-      <Text style={styles.titleCard}>{product.name}</Text>
+      <View style={styles.headerCard}>
+        <Text style={styles.titleCard}>{product.name}</Text>
+        <Text style={styles.specieCard}>{product.species}</Text>
+      </View>
       <Image style={styles.image} source={product.image} />
       <Text style={styles.priceCard}>Price: ${product.id * 10},00</Text>
     </View>
@@ -17,18 +20,29 @@ const styles = StyleSheet.create({
   cards: {
     width: '100%',
     height: 340,
-    border: '1px solid #265968',
+    border: '1px solid #E8C547',
     marginVertical: 20,
+  },
+  headerCard: {
+    display: 'flex',
+    flexDirection:'row',
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
   titleCard: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginHorizontal: 'auto'
+    color: '#fdfdfd',
+  },
+  specieCard: {
+    fontSize: 16,
+    color: '#fdfdfd'
   },
   priceCard: {
     fontSize: 20,
     textAlign: 'center',
-    marginBottom: 'auto'
+    marginBottom: 'auto',
+    color: '#fdfdfd'
   },
   image: {
     width: '100%',

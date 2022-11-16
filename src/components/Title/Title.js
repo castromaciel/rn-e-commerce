@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 40,
     marginBottom: 10,
+    color: '#fdfdfd'
   }
 })
 

@@ -1,34 +1,22 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Card } from './src/components/Card';
-import { Title } from './src/components/Title';
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Home } from './src/screens/Home'
+import { ProductDetail } from './src/screens/ProductDetail'
+
+// crea las rutas
+const Stack = createNativeStackNavigator()
+
 
 const App = () => {
-  const [products, setProducts] = useState([])
-
-  const getProducts = async () => {
-    const response = await fetch('https://rickandmortyapi.com/api/character')
-    const {results: data} = await response.json()
-    setProducts(data)
-  }
-
-  useEffect(() => {
-    getProducts()
-  }, [])
-
   return (
-    <View style={styles.container}>
-      <Title title={'React Advanced'}/>
-      { products?.map((product) => <Card product={product} /> )}
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Product detail" component={ProductDetail} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: '#fdfdfd'
-  },
-});
-
-export default App;
+export default App
