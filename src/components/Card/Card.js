@@ -1,51 +1,56 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet } from 'react-native'
+import { Button, Card, Paragraph } from 'react-native-paper';
+import { useDispatch } from 'react-redux'
+import { addProduct } from '../../app/productSlice';
 
-const Card = ({ product }) => {
+const RNCard = ({ id, image, description, price, title }) => {
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+  
+  const onGoinTo = () => {
+    dispatch(addProduct({id, image, description, price, title}))
+  }
+  
   return (
-    <View style={styles.cards} key={product.id}>
-      <View style={styles.headerCard}>
-        <Text style={styles.titleCard}>{product.name}</Text>
-        <Text style={styles.specieCard}>{product.species}</Text>
-      </View>
-      <Image style={styles.image} source={product.image} />
-      <Text style={styles.priceCard}>Price: ${product.id * 10},00</Text>
-    </View>
+    <Card style={styles.card}>
+      <Card.Title title={title} />
+      <Card.Cover source={{ uri: image }} />
+      <Card.Content>
+        <Paragraph style={styles.description}>
+          {description}
+        </Paragraph>
+        <Paragraph style={styles.price}>
+          Precio: ${price}
+        </Paragraph>
+      </Card.Content>
+      <Card.Actions>
+        <Button
+          onPress={onGoinTo}
+        >
+          Añadir al carrito
+        </Button>
+        <Button
+          onPress={() => navigation.navigate('Product detail')}
+        >
+          Comprar
+        </Button>
+      </Card.Actions>
+    </Card>
   )
 }
 
-export default Card
-
 const styles = StyleSheet.create({
-  cards: {
-    width: '100%',
-    height: 340,
-    border: '1px solid #E8C547',
-    marginVertical: 20,
+  card: {
+    marginBottom: 24,
   },
-  headerCard: {
-    display: 'flex',
-    flexDirection:'row',
-    alignItems: 'center',
-    justifyContent: 'space-around'
+  description: {
+    marginVertical: 8,
   },
-  titleCard: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#fdfdfd',
-  },
-  specieCard: {
-    fontSize: 16,
-    color: '#fdfdfd'
-  },
-  priceCard: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginBottom: 'auto',
-    color: '#fdfdfd'
-  },
-  image: {
-    width: '100%',
-    height: 260,
-   }
+  price: {
+    marginVertical: 8,
+  }
 })
+
+export default RNCard

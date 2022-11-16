@@ -1,37 +1,30 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, ScrollView, Button} from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { Card } from '../../components/Card';
 import { Title } from '../../components/Title';
+import { useSelector, useDispatch } from 'react-redux'
 
-const Home = ({ navigation }) => {
+
+const Home = () => {
+  const cardProducts = useSelector((state) => state)
+  // const dispatch = useDispatch()
+
   const [products, setProducts] = useState([])
 
   const getProducts = async () => {
-    const response = await fetch('https://rickandmortyapi.com/api/character')
-    const {results: data} = await response.json()
+    const response = await fetch('http://fakestoreapi.com/products')
+    const data = await response.json()
     setProducts(data)
-  }
-
-  const handleNavigate = () => {
-    navigation.navigate("Product detail")
   }
 
   useEffect(() => {
     getProducts()
   }, [])
 
-  useEffect(() => {
-    console.log(products)
-  }, [products])
-
   return (
     <ScrollView style={styles.container}>
       <Title title={'React Advanced'} />
-      <Button 
-        onPress={handleNavigate}
-        title="LearnMore"
-      />
-      { products?.map((product) => <Card product={product} key={product.id} /> )}
+      { products?.map((product) => <Card {...product} key={product.id} />) }
     </ScrollView>
   )
 }
